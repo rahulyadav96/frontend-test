@@ -14,7 +14,7 @@ Get data from the follwing api: http://3.109.133.121:8000/app/car/?format=json
 
 ## Display Data
 
-- Display the car only from BMW maker.
+- Display the car data only from BMW maker.
 - Store the key variable of the 4th object in global state.
 - Display the key variable on different page.
 - Install next-auth create a login page using credentials
