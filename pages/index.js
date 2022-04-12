@@ -15,63 +15,135 @@ const people = [
   // More people...
 ]
 
-import {useState,useEffect} from "react";
+import { useState, useEffect, useContext } from "react";
+import { AppContext } from '../context/AppContext';
 
 
 export default function Example() {
 
-  const [cardata, setCarData]  = useState([]);
+  const [cardata, setCarData] = useState([]);
 
-  useEffect(()=>{
+  const { handleGlobalKey } = useContext(AppContext);
+
+
+  useEffect(() => {
 
     axios.get('http://3.109.133.121:8000/app/car/?format=json')
-    .then(res => console.log(res.data))
-    .catch(err=>console.error)
-  },[])
+      .then(res => {
+        handleGlobalKey(res.data[3].key.id);
+        setCarData(res.data);
+        // console.log(res.data)
+      })
+      .catch(err => console.error)
+  }, [])
+
+
 
   return (
     <>
-    <Navbar />
-    <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {people.map((person) => (
-        <li key={person.email} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-          <div className="w-full flex items-center justify-between p-6 space-x-6">
-            <div className="flex-1 truncate">
-              <div className="flex items-center space-x-3">
-                <h3 className="text-gray-900 text-sm font-medium truncate">{person.name}</h3>
-                <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                  {person.role}
-                </span>
+      <Navbar />
+      <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {people.map((person) => (
+          <li key={person.email} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+            <div className="w-full flex items-center justify-between p-6 space-x-6">
+              <div className="flex-1 truncate">
+                <div className="flex items-center space-x-3">
+                  <h3 className="text-gray-900 text-sm font-medium truncate">{person.name}</h3>
+                  <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
+                    {person.role}
+                  </span>
+                </div>
+                <p className="mt-1 text-gray-500 text-sm truncate">{person.title}</p>
               </div>
-              <p className="mt-1 text-gray-500 text-sm truncate">{person.title}</p>
+              <img className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0" src={person.imageUrl} alt="" />
             </div>
-            <img className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0" src={person.imageUrl} alt="" />
-          </div>
-          <div>
-            <div className="-mt-px flex divide-x divide-gray-200">
-              <div className="w-0 flex-1 flex">
-                <a
-                  href={`mailto:${person.email}`}
-                  className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
-                >
-                  <MailIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                  <span className="ml-3">Email</span>
-                </a>
-              </div>
-              <div className="-ml-px w-0 flex-1 flex">
-                <a
-                  href={`tel:${person.telephone}`}
-                  className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
-                >
-                  <PhoneIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                  <span className="ml-3">Call</span>
-                </a>
+            <div>
+              <div className="-mt-px flex divide-x divide-gray-200">
+                <div className="w-0 flex-1 flex">
+                  <a
+                    href={`mailto:${person.email}`}
+                    className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+                  >
+                    <MailIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                    <span className="ml-3">Email</span>
+                  </a>
+                </div>
+                <div className="-ml-px w-0 flex-1 flex">
+                  <a
+                    href={`tel:${person.telephone}`}
+                    className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
+                  >
+                    <PhoneIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                    <span className="ml-3">Call</span>
+                  </a>
+                </div>
               </div>
             </div>
+          </li>
+        ))}
+      </ul>
+
+
+
+      <div class="flex flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+              <table class="min-w-full">
+                <thead class="border-b">
+                  <tr>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Car_id
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Car Name
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      price
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Displacement
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Power
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Maker
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    cardata?.filter(car => car.engine.maker == "BMW")?.map(car => <tr class="border-b" key={car.id}>
+
+                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {car.id}
+                      </td>
+                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {car.car_name}
+                      </td>
+                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {car.price.price}
+                      </td>
+                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {car.engine.displacement}
+                      </td>
+                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {car.engine.power}
+                      </td>
+                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {car.engine.maker}
+                      </td>
+                    </tr>)
+                  }
+
+                </tbody>
+              </table>
+            </div>
           </div>
-        </li>
-      ))}
-    </ul>
+        </div>
+      </div>
+
 
 
     </>

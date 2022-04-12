@@ -6,7 +6,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({children})=>{
 
     const [auth,setAuth] = useState(false);
-    const [globalKey, setGlobalKey] = useState([]);
+    const [globalKey, setGlobalKey] = useState("");
 
 
     const handleAuth = ()=>{
@@ -14,7 +14,7 @@ export const AppContextProvider = ({children})=>{
     }
 
     const handleGlobalKey = (key)=>{
-        setGlobalKey([...globalKey, key]);
+        setGlobalKey(key);
     }
 
     return <AppContext.Provider
