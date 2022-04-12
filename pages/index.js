@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { MailIcon, PhoneIcon } from '@heroicons/react/solid'
-import axios from 'axios'
+import axios from 'axios';
+import { Navbar } from '../components/Navbar';
 const people = [
   {
     name: 'Jane Cooper',
@@ -14,8 +15,23 @@ const people = [
   // More people...
 ]
 
+import {useState,useEffect} from "react";
+
+
 export default function Example() {
+
+  const [cardata, setCarData]  = useState([]);
+
+  useEffect(()=>{
+
+    axios.get('http://3.109.133.121:8000/app/car/?format=json')
+    .then(res => console.log(res.data))
+    .catch(err=>console.error)
+  },[])
+
   return (
+    <>
+    <Navbar />
     <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {people.map((person) => (
         <li key={person.email} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
@@ -56,5 +72,8 @@ export default function Example() {
         </li>
       ))}
     </ul>
+
+
+    </>
   )
 }
